@@ -151,11 +151,19 @@ blockquote {
 }
 """
 
+def extract_title(md_content: str) -> str:
+    """Extract the first H1 heading from markdown content as the document title."""
+    for line in md_content.splitlines():
+        if line.startswith("# ") and not line.startswith("## "):
+            return line[2:].strip()
+    return "Document"
+
+
 HTML_TEMPLATE = """<!DOCTYPE html>
-<html lang="fr">
+<html lang="{lang}">
 <head>
 <meta charset="UTF-8">
-<title>Construire un Système RAG Production Ready</title>
+<title>{title}</title>
 </head>
 <body>
 {content}
@@ -164,10 +172,13 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 """
 
 
-def generate_pdf(md_file: str = "RAGBOOK.md", pdf_file: str = "RAGBOOK.pdf") -> None:
+def generate_pdf(md_file: str = "RAGBOOK.md", pdf_file: str = "RAGBOOK.pdf", lang: str = "fr") -> None:
     print(f"Reading {md_file}...")
     with open(md_file, encoding="utf-8") as f:
         md_content = f.read()
+
+    title = extract_title(md_content)
+    print(f"Detected title: {title}")
 
     print("Converting Markdown to HTML...")
     extensions = [
@@ -179,7 +190,7 @@ def generate_pdf(md_file: str = "RAGBOOK.md", pdf_file: str = "RAGBOOK.pdf") -> 
     ]
     html_content = markdown.markdown(md_content, extensions=extensions)
 
-    full_html = HTML_TEMPLATE.format(content=html_content)
+    full_html = HTML_TEMPLATE.format(content=html_content, title=title, lang=lang)
 
     print(f"Generating {pdf_file} with WeasyPrint...")
     css = weasyprint.CSS(string=CSS)
@@ -189,6 +200,11 @@ def generate_pdf(md_file: str = "RAGBOOK.md", pdf_file: str = "RAGBOOK.pdf") -> 
 
 
 if __name__ == "__main__":
-    md_file = sys.argv[1] if len(sys.argv) > 1 else "RAGBOOK.md"
-    pdf_file = sys.argv[2] if len(sys.argv) > 2 else "RAGBOOK.pdf"
-    generate_pdf(md_file, pdf_file)
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Generate a PDF from a Markdown file using WeasyPrint.")
+    parser.add_argument("md_file", nargs="?", default="RAGBOOK.md", help="Input Markdown file (default: RAGBOOK.md)")
+    parser.add_argument("pdf_file", nargs="?", default="RAGBOOK.pdf", help="Output PDF file (default: RAGBOOK.pdf)")
+    parser.add_argument("--lang", default="fr", help="HTML lang attribute (default: fr)")
+    args = parser.parse_args()
+    generate_pdf(args.md_file, args.pdf_file, args.lang)
