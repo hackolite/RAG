@@ -1,0 +1,173 @@
+==============================================================================
+   QUESTIONS D'UN CTO — ÉVALUATION CRITIQUE DU LIVRE
+   "Maîtriser le RAG pour l'Entreprise" — Loïc Laureote
+==============================================================================
+
+En tant que CTO ayant déployé des systèmes à grande échelle, voici les
+questions que je poserais à l'auteur pour évaluer la profondeur réelle de
+son expertise. Ces questions vont au-delà du contenu du livre et cherchent
+à tester la pensée critique, les nuances pratiques et la maturité
+d'ingénierie de l'auteur.
+
+------------------------------------------------------------------------------
+PARTIE 1 — ARCHITECTURE ET DÉCISIONS TECHNIQUES EN CONDITIONS RÉELLES
+------------------------------------------------------------------------------
+
+Q1 — Le livre présente le RAG comme une architecture "fiable et industrialisable".
+Mais dans votre expérience, quel est le taux d'échec réel des pipelines RAG
+en production ? Quel est le principal point de défaillance que vous avez
+rencontré, et que vous ne mentionnez pas explicitement dans le livre ?
+
+Q2 — Vous comparez RAG, fine-tuning et agents comme trois approches
+complémentaires. Mais dans un contexte de budget serré, une PME doit en
+choisir une seule pour démarrer. Quelle est votre recommandation concrète,
+avec les chiffres à l'appui (coût, temps de mise en œuvre, ROI attendu) ?
+
+Q3 — Le chapitre sur l'architecture en production liste les options (monolithique,
+modulaire, microservices). Mais quelle est la décision d'architecture la plus
+difficile que vous avez eu à prendre dans un vrai projet, et que vous avez
+regrettée plus tard ? Pourquoi cela n'apparaît-il pas dans le livre ?
+
+Q4 — Vous préconisez Qdrant pour "une mise en production rapide". Dans quelles
+conditions concrètes Qdrant casse-t-il en production ? Donnez un exemple
+de volume de données ou de pattern de requête qui révèle ses limites.
+
+Q5 — Le livre aborde la scalabilité de manière abstraite (sharding, ANN, etc.).
+Quel est le "ceiling" réaliste d'un déploiement Qdrant single-node avant
+de devoir passer à une architecture distribuée ? Donnez un ordre de grandeur
+en nombre de vecteurs, en QPS, et en mémoire utilisée.
+
+------------------------------------------------------------------------------
+PARTIE 2 — QUALITÉ, ÉVALUATION ET MESURE
+------------------------------------------------------------------------------
+
+Q6 — Vous mentionnez qu'un RAG industriel doit être "mesurable". Mais vous ne
+proposez pas de framework d'évaluation complet dans le livre. Comment
+mesurez-vous concrètement la qualité d'un système RAG sans ground truth
+disponible au démarrage d'un projet ? Quelle métrique utilisez-vous en
+priorité et pourquoi ?
+
+Q7 — Le livre affirme que "la qualité de la réponse est bornée par la qualité
+du contexte récupéré". Mais comment gérez-vous le cas où le document source
+est lui-même erroné ou obsolète ? Votre architecture a-t-elle un mécanisme
+de détection de la fiabilité des sources, et si non, pourquoi ?
+
+Q8 — Sur le reranking, vous présentez les cross-encoders comme la couche de
+précision ultime. Mais dans quelles conditions le reranking dégrade-t-il
+la qualité finale ? Avez-vous des exemples concrets de régression suite à
+l'ajout d'un reranker dans un pipeline existant ?
+
+Q9 — Le chunking sémantique est présenté comme supérieur au chunking naïf, mais
+comment le prouvez-vous empiriquement ? Quel test vous permet de choisir
+objectivement la bonne stratégie de chunking pour un corpus donné ?
+
+Q10 — Vous évoquez le taux d'hallucination comme indicateur à surveiller.
+Mais comment le calculez-vous automatiquement en production, à grande échelle,
+sans évaluation humaine de chaque réponse ? Quel outil ou méthode utilisez-
+vous réellement ?
+
+------------------------------------------------------------------------------
+PARTIE 3 — COÛTS, OPÉRATIONS ET RÉALITÉS ÉCONOMIQUES
+------------------------------------------------------------------------------
+
+Q11 — Le livre est silencieux sur les coûts réels. Donnez un ordre de grandeur
+chiffré : pour un corpus de 10 millions de chunks, quel est le coût mensuel
+d'infrastructure (embedding, vector DB, LLM) sur AWS ou GCP, en production,
+avec 1 000 requêtes/jour ?
+
+Q12 — Vous parlez de compression des embeddings (float16, quantification) comme
+une option d'optimisation. À partir de quel seuil de volume recommandez-vous
+de l'activer systématiquement, et quel est l'impact mesuré sur le recall ?
+Avez-vous des chiffres issus de vos propres déploiements ?
+
+Q13 — Le livre traite le pipeline d'ingestion de manière linéaire. Mais dans un
+contexte de mise à jour continue (documents qui changent quotidiennement),
+quel est le coût opérationnel de la réindexation incrémentale par rapport
+à la réindexation complète ? Quand choisissez-vous l'un ou l'autre ?
+
+Q14 — Le caching des embeddings est mentionné comme levier d'optimisation.
+Mais comment gérez-vous l'invalidation du cache lorsque les documents
+sources sont mis à jour ? Ce problème est-il trivial ou profondément
+compliqué en pratique ?
+
+------------------------------------------------------------------------------
+PARTIE 4 — SÉCURITÉ, CONFORMITÉ ET RISQUES
+------------------------------------------------------------------------------
+
+Q15 — Le livre ne mentionne pas la sécurité. Dans un contexte entreprise,
+comment empêchez-vous un utilisateur d'obtenir via le RAG des informations
+auxquelles il n'a pas le droit d'accéder ? Avez-vous un modèle d'accès
+basé sur les rôles (RBAC) au niveau du retrieval, et comment l'implémentez-
+vous sans dégrader la latence ?
+
+Q16 — Les données injectées dans un LLM via RAG quittent potentiellement votre
+infrastructure. Comment gérez-vous la conformité RGPD lorsque les chunks
+contiennent des données personnelles ? Avez-vous une stratégie de
+pseudonymisation ou de filtrage avant injection dans le prompt ?
+
+Q17 — Les attaques par "prompt injection" peuvent contourner un système RAG
+(un document malveillant dans la base peut manipuler le LLM). Quelle est
+votre stratégie de défense contre ce vecteur d'attaque ? Ce sujet est
+absent du livre — est-ce un oubli ou un choix délibéré ?
+
+Q18 — Dans un contexte juridique ou médical, une hallucination du système RAG
+peut avoir des conséquences graves. Comment engagez-vous votre
+responsabilité en tant qu'auteur qui recommande ces architectures pour
+ces secteurs ? Quelles garde-fous architecturales spécifiques proposez-vous ?
+
+------------------------------------------------------------------------------
+PARTIE 5 — LIMITES, LACUNES ET HONNÊTETÉ INTELLECTUELLE
+------------------------------------------------------------------------------
+
+Q19 — Le livre a été "copiloté par IA" selon la préface. Comment garantissez-vous
+que les affirmations techniques du livre sont exactes et ne sont pas des
+hallucinations du modèle de langage que vous avez utilisé pour écrire ?
+Quelle est votre processus de vérification ?
+
+Q20 — Quelle est la limite la plus fondamentale du RAG que vous n'avez pas réussi
+à résoudre dans un vrai projet ? Un problème pour lequel vous n'avez pas
+de bonne réponse et que vous n'avez pas mentionné dans le livre ?
+
+Q21 — Le RAG est présenté comme LA solution pour les connaissances dynamiques.
+Mais GraphRAG (RAG sur des graphes de connaissance) n'est pas mentionné.
+Pourquoi ? Dans quels cas GraphRAG surpasse-t-il fondamentalement votre
+approche vectorielle ?
+
+Q22 — La question du "lost in the middle" (le LLM ignore les passages au milieu
+d'un long contexte) est un problème documenté. Votre architecture en tient-
+elle compte lors de l'ordonnancement des chunks injectés dans le prompt ?
+Si non, comment défendez-vous vos choix de design ?
+
+Q23 — Le livre ne couvre pas la gestion multi-lingue des embeddings. Que se passe-
+t-il concrètement lorsqu'un corpus est en français et que les requêtes sont
+en anglais ? Quel modèle d'embedding recommandez-vous et pourquoi n'est-ce
+pas dans le livre ?
+
+Q24 — L'overlap de chunks est présenté comme une solution à la perte d'information.
+Mais avez-vous quantifié le ratio exact entre augmentation du recall et
+augmentation du bruit dans vos systèmes réels ? Existe-t-il une formule
+empirique que vous utilisez ?
+
+------------------------------------------------------------------------------
+PARTIE 6 — VISION STRATÉGIQUE ET FUTUR
+------------------------------------------------------------------------------
+
+Q25 — Dans 18 mois, les LLMs auront des fenêtres de contexte de plusieurs millions
+de tokens. Est-ce que le RAG devient obsolète, ou simplement différent ?
+Quelle est votre position sur la survie architecturale du RAG face à des
+modèles qui peuvent tout ingérer en contexte natif ?
+
+Q26 — Les modèles "Retrieval-augmented" nativement intégrés (comme RAG natif
+dans Gemini ou o3) vont remplacer les architectures RAG custom. Comment
+positionnez-vous votre livre face à cette obsolescence potentielle dans
+2 ans ?
+
+Q27 — Si vous deviez réécrire ce livre aujourd'hui en intégrant tout ce que vous
+avez appris après sa publication, quel chapitre ou section serait
+fondamentalement différent, et pourquoi ?
+
+==============================================================================
+   FIN DES QUESTIONS — Ces 27 questions sont conçues pour distinguer un
+   praticien qui a vraiment déployé des systèmes RAG en production d'un
+   auteur qui en a uniquement lu la littérature.
+==============================================================================
