@@ -1,8 +1,71 @@
+---
+
 # Construire un Système RAG Production Ready
 
+## De l'ingénierie des embeddings à l'industrialisation complète
 
-## De l’ingénierie des embeddings à l’industrialisation complète
+### *Copiloté par IA*
 
+---
+
+**Loïc Laureote**
+
+---
+
+*Première édition*
+
+---
+
+<br><br>
+
+---
+
+## À propos de l'auteur
+
+Loïc Laureote est né et a grandi en Martinique, cette île des Caraïbes où la luxuriance de la nature façonne les esprits autant que les caractères. Développeur autodidacte depuis ses premières années, il a appris à programmer seul, armé d'une curiosité insatiable, d'une connexion Internet et d'une passion dévorante pour comprendre ce qui se cache derrière les machines.
+
+Maker dans l'âme, il a construit, démonté et reconstruit des dizaines de projets allant des microcontrôleurs aux systèmes distribués en passant par l'impression 3D et l'électronique DIY. Ce goût du concret, de la chose que l'on peut toucher et transformer, a toujours orienté sa façon d'aborder le code : avant tout, un outil au service d'une intention.
+
+Passionné d'informatique et d'intelligence artificielle depuis l'époque où les LLM n'existaient encore que dans des laboratoires de recherche confidentiels, Loïc a suivi l'explosion du deep learning avec la même ferveur qu'un alpiniste scrute un sommet encore non balisé. Il a plongé dans les transformers, exploré les embeddings, construit ses premiers RAG de prototype avant d'en faire des systèmes de production robustes.
+
+Biohacker convaincu, il considère le corps humain comme un autre système à comprendre, optimiser et expérimenter. Jeûne intermittent, suivi des biomarqueurs, méditation de pleine conscience, sommeil analysé au millimètre — il applique la même rigueur d'ingénieur à sa propre biologie qu'à ses architectures logicielles.
+
+Amoureux de la nature et de la randonnée, Loïc retrouve dans les sentiers martiniquais — du Mont Pelé aux gorges de la Falaise — une forme de ressourcement fondamental. La forêt tropicale, la mer des Caraïbes, les traces oubliées : autant d'espaces où les idées se cristallisent et les problèmes techniques se résolvent souvent d'eux-mêmes, loin des écrans.
+
+Il croit fermement que la prochaine révolution ne sera pas seulement technologique, mais humaine — celle d'individus capables d'augmenter leur propre intelligence, de maîtriser les outils d'IA et de les mettre au service de projets qui ont du sens. Ce livre est une contribution à cette vision.
+
+---
+
+## Préface
+
+Il y a quelque chose de particulièrement vertigineux dans le fait d'écrire un livre sur l'intelligence artificielle à l'aide de l'intelligence artificielle elle-même.
+
+Ce projet est né d'une conviction simple : les systèmes RAG (Retrieval-Augmented Generation) représentent aujourd'hui l'une des architectures les plus puissantes et les plus sous-estimées du paysage de l'IA applicative. Trop souvent relégués au rang de "simple wrapper autour d'un LLM", ils sont en réalité des infrastructures cognitives à part entière, capables de transformer la connaissance brute d'une organisation en réponses précises, traçables et industrialisables.
+
+Mais pour les construire sérieusement — pour les déployer en production, les instrumenter, les évaluer et les maintenir — il faut une compréhension profonde de chaque composant. C'est l'ambition de ce livre.
+
+Ce livre a été rédigé en collaboration étroite avec des modèles de langage avancés. Non pas pour déléguer la pensée, mais pour amplifier la capacité de structuration, d'explication et de synthèse. Chaque chapitre, chaque concept, chaque exemple de code a été guidé, relu, corrigé et validé par un regard humain — celui d'un praticien qui a construit ces systèmes, qui a rencontré leurs limites et qui en connaît les pièges.
+
+Cette co-écriture est elle-même une démonstration de ce que l'IA, bien utilisée, permet : non pas remplacer l'expertise humaine, mais l'exprimer plus clairement, plus complètement, plus rapidement.
+
+À vous, lecteur, qui tenez ce livre entre les mains — ou plutôt qui le lisez sur un écran —, je vous souhaite autant de plaisir à le parcourir que j'en ai eu à le construire.
+
+**Loïc Laureote**
+*Martinique, 2025*
+
+---
+
+## Note d'intention
+
+Ce livre s'adresse aux développeurs, ingénieurs et architectes qui souhaitent dépasser le stade du prototype et construire de véritables systèmes RAG en production. Il ne suppose aucune connaissance préalable des LLM, mais attend du lecteur une familiarité avec Python et les concepts de base de l'ingénierie logicielle.
+
+Chaque chapitre alterne entre fondements théoriques, exemples de code commentés et conseils pratiques issus de déploiements réels. L'objectif n'est pas de vous donner une recette, mais de vous donner les clés pour prendre vos propres décisions architecturales en connaissance de cause.
+
+Bonne lecture.
+
+---
+
+<br><br>
 
 # Partie I — Fondations solides du RAG industriel
 
