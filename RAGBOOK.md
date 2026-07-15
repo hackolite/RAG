@@ -1,6 +1,6 @@
 ---
 
-# Construire un Système RAG Production Ready
+# Maîtriser le RAG pour l'Entreprise
 
 ## De l'ingénierie des embeddings à l'industrialisation complète
 
@@ -464,7 +464,7 @@ Dans les systèmes industriels, l’objectif n’est pas seulement d’extraire 
 ### HTML — Exploitation de la structure hiérarchique
 
 
-Les documents HTML présentent un avantage majeur : ils contiennent une structure explicite. Les balises telles que <h1>, <h2>, <p> ou <section> fournissent des indications précieuses sur la hiérarchie du contenu.
+Les documents HTML présentent un avantage majeur : ils contiennent une structure explicite. Les balises telles que `<h1>`, `<h2>`, `<p>` ou `<section>` fournissent des indications précieuses sur la hiérarchie du contenu.
 
 Le parsing HTML dans un **pipeline** **RAG** consiste donc à exploiter cette structure pour reconstruire un document proprement hiérarchisé. Cela permet de générer des chunks plus cohérents, alignés avec la logique du contenu original.
 
