@@ -1,6 +1,6 @@
 ---
 
-# Construire un Système RAG Production Ready
+# Maîtriser le RAG pour l'Entreprise
 
 ## De l'ingénierie des embeddings à l'industrialisation complète
 
