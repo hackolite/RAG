@@ -28,7 +28,7 @@ Maker dans l'âme, il a construit, démonté et reconstruit des dizaines de proj
 
 Passionné d'informatique et d'intelligence artificielle depuis l'époque où les LLM n'existaient encore que dans des laboratoires de recherche confidentiels, Loïc a suivi l'explosion du deep learning avec la même ferveur qu'un alpiniste scrute un sommet encore non balisé. Il a plongé dans les transformers, exploré les embeddings, construit ses premiers RAG de prototype avant d'en faire des systèmes de production robustes.
 
-Biohacker dans le sens le plus radical et le plus fascinant du terme, Loïc s'intéresse à la biologie en tant que terrain d'expérimentation et de détournement créatif. Captivé par la biologie synthétique et la génomique ouverte, il explore comment les micro-organismes — bactéries, levures, champignons — peuvent être reprogrammés pour produire des aliments, générer de l'énergie, fabriquer des biomatériaux ou concevoir des biosenseurs low-cost. Ce n'est pas la santé personnelle qui l'anime, mais la conviction que le vivant est le prochain grand terrain de l'ingénierie, et que les outils comme CRISPR, les cultures DIY en laboratoire ouvert, ou la fermentation dirigée ouvrent des possibilités que l'industrie traditionnelle n'a pas encore imaginées.
+Biohacker dans le sens le plus radical et le plus fascinant du terme, Loïc s'intéresse à la biologie en tant que terrain d'expérimentation et de détournement créatif. Il explore comment les micro-organismes — bactéries, levures, champignons — peuvent être manipulés et instrumentalisés via des plasmides recombinants pour produire des aliments, générer de l'énergie, fabriquer des biomatériaux ou concevoir des biosenseurs low-cost. Ce n'est pas la santé personnelle qui l'anime, mais la conviction que le vivant est le prochain grand terrain de l'ingénierie, et que les outils comme les vecteurs plasmidiques, les cultures DIY en laboratoire ouvert, ou la fermentation dirigée ouvrent des possibilités que l'industrie traditionnelle n'a pas encore imaginées.
 
 Amoureux de la nature et de la randonnée, Loïc retrouve dans les sentiers martiniquais — du Mont Pelé aux gorges de la Falaise — une forme de ressourcement fondamental. La forêt tropicale, la mer des Caraïbes, les traces oubliées : autant d'espaces où les idées se cristallisent et les problèmes techniques se résolvent souvent d'eux-mêmes, loin des écrans.
 
@@ -6885,3 +6885,246 @@ L'architecture défensive : L'usage de caches sémantiques (**Redis**) permet no
 En maîtrisant l'intégralité du **pipeline** de production **RAG**, vous n'êtes plus un simple consommateur d'APIs tierces. Vous êtes le concepteur de l'infrastructure cognitive de votre entreprise. Vous êtes celui qui permet à une organisation d'interroger son propre savoir de manière sécurisée, instantanée et vérifiable.
 
 Les compétences que vous avez acquises dans ce livre constituent le socle de l'informatique de demain. Armé de ces concepts, de ces architectures rigoureuses et de cette éthique de production, vous disposez désormais de tous les outils nécessaires pour transformer des téraoctets de données brutes et silencieuses en un copilote robuste, intelligent et digne de confiance. Le chemin vers des systèmes critiques et fiables est désormais tracé : il ne vous reste plus qu'à le déployer.
+
+---
+
+<br><br>
+
+# Lexique — Termes essentiels du RAG industriel
+
+---
+
+**ACL (Access Control List)**
+Liste de règles définissant les droits d'accès accordés à chaque utilisateur ou groupe sur un ensemble de ressources. Dans un RAG multi-utilisateurs, les ACL servent à filtrer dynamiquement les documents accessibles lors du retrieval, garantissant qu'aucune information confidentielle ne soit exposée à un utilisateur non autorisé.
+
+---
+
+**Agent (LLM Agent)**
+Système autonome basé sur un LLM capable de planifier et d'exécuter des actions séquentielles (appels d'outils, requêtes web, opérations sur des fichiers) pour atteindre un objectif. Un agent RAG peut, par exemple, décomposer une question complexe, rechercher des informations dans plusieurs sources, puis synthétiser une réponse finale.
+
+---
+
+**Airflow (Apache Airflow)**
+Orchestrateur de pipelines de données permettant de planifier, surveiller et exécuter des workflows complexes sous forme de graphes acycliques dirigés (DAG). Utilisé en RAG pour automatiser les pipelines d'ingestion documentaire, de mise à jour des index vectoriels et de retraitement périodique.
+
+---
+
+**BM25 (Best Match 25)**
+Algorithme de recherche lexicale probabiliste basé sur la fréquence des termes (TF) et la fréquence inverse dans les documents (IDF). Il constitue la colonne vertébrale de la recherche textuelle classique (Elasticsearch, OpenSearch) et s'associe souvent à la recherche vectorielle dans les architectures hybrides.
+
+---
+
+**Celery**
+Framework Python de traitement distribué de tâches asynchrones basé sur des files de messages. En RAG, Celery gère les tâches longues d'ingestion (parsing PDF, génération d'embeddings, indexation) sans bloquer le pipeline principal de réponse aux utilisateurs.
+
+---
+
+**Chunking**
+Opération de découpage d'un document source en fragments (chunks) de taille contrôlée avant la génération des embeddings. La stratégie de chunking (fixe, sémantique, par phrase, par section) est déterminante pour la qualité du retrieval : un chunk trop grand noie le signal pertinent ; un chunk trop petit perd le contexte nécessaire.
+
+---
+
+**Context Window**
+Limite maximale de tokens qu'un LLM peut traiter en une seule inférence, incluant le prompt système, le contexte RAG injecté et la réponse générée. La gestion efficace de la fenêtre de contexte est critique pour éviter les troncatures et maîtriser les coûts.
+
+---
+
+**Cross-encoder**
+Modèle de reranking qui prend en entrée la paire (requête, document) et produit un score de pertinence précis. Contrairement aux bi-encodeurs utilisés pour l'indexation vectorielle, les cross-encodeurs comparent directement requête et passage, offrant une précision supérieure au prix d'une latence plus élevée. Utilisés en fin de pipeline de retrieval pour affiner la sélection des chunks.
+
+---
+
+**Dense Retrieval**
+Approche de recherche d'information qui encode requêtes et documents dans un espace vectoriel continu, puis mesure leur proximité par similarité cosinus ou produit scalaire. S'oppose à la recherche sparse (lexicale). Permet de capturer des relations sémantiques non exprimables par les mots-clés seuls.
+
+---
+
+**Embedding**
+Représentation numérique dense d'un texte (token, phrase, document) dans un espace vectoriel de haute dimension, générée par un modèle de langue. Les embeddings sémantiquement proches se retrouvent géographiquement proches dans cet espace, ce qui permet la recherche par similarité. Ils constituent le fondement de tout système RAG.
+
+---
+
+**Faithfulness**
+Métrique d'évaluation RAG mesurant dans quelle mesure la réponse générée par le LLM est strictement fondée sur les documents sources récupérés, sans ajout d'information externe ou inventée. Une faithfulness élevée est le principal indicateur contre les hallucinations dans un système RAG.
+
+---
+
+**Fine-tuning**
+Processus d'adaptation d'un modèle pré-entraîné à une tâche ou un domaine spécifique par un entraînement supplémentaire sur un jeu de données ciblé. En RAG, le fine-tuning peut être appliqué aux modèles d'embeddings pour mieux représenter le vocabulaire métier, ou aux LLM pour adopter un ton ou un format de réponse particulier.
+
+---
+
+**Guardrails**
+Mécanismes de contrôle placés en entrée et/ou en sortie d'un LLM pour détecter et bloquer les requêtes malveillantes (injections de prompts, jailbreaks), les réponses hors-sujet, toxiques ou non conformes aux règles métier. Exemples : NeMo Guardrails, Llama Guard.
+
+---
+
+**Hallucination**
+Phénomène par lequel un LLM génère une information factuellement incorrecte, inventée ou non étayée par les sources disponibles, en la présentant avec un niveau de confiance trompeur. La principale valeur d'une architecture RAG est précisément de réduire les hallucinations en ancrant la génération sur des documents vérifiables.
+
+---
+
+**HNSW (Hierarchical Navigable Small World)**
+Structure de données graphique multi-couches permettant une recherche approximative du plus proche voisin (ANN) en très haute dimension, avec une complexité logarithmique. C'est l'algorithme d'indexation vectorielle le plus répandu dans les bases vectorielles comme Qdrant, Weaviate et Milvus.
+
+---
+
+**Hybrid Search**
+Stratégie de retrieval combinant la recherche vectorielle dense (sémantique) et la recherche sparse lexicale (BM25) pour bénéficier des avantages des deux approches. La fusion des scores se fait généralement via l'algorithme Reciprocal Rank Fusion (RRF).
+
+---
+
+**Ingestion Pipeline**
+Ensemble des étapes de traitement hors-ligne transformant des documents bruts (PDF, HTML, Markdown, bases de données) en chunks indexés dans la base vectorielle : extraction du texte, nettoyage, chunking, génération des embeddings, enrichissement des métadonnées et stockage.
+
+---
+
+**Langfuse**
+Plateforme open-source d'observabilité et de traçage pour les applications LLM. Elle enregistre chaque étape d'exécution (retrieval, génération, reranking) sous forme de traces structurées, permettant le débogage, l'évaluation humaine et la détection des dérives de qualité en production.
+
+---
+
+**Latence**
+Temps écoulé entre la réception d'une requête utilisateur et la livraison complète de la réponse. En RAG, la latence est la somme des temps de retrieval, de reranking et d'inférence LLM. Sa maîtrise est critique pour l'expérience utilisateur et les SLA de production.
+
+---
+
+**LLM (Large Language Model)**
+Modèle de langue de grande taille entraîné sur de vastes corpus textuels, capable de comprendre et de générer du texte en langage naturel. Dans une architecture RAG, le LLM joue le rôle du générateur : il reçoit une question et un contexte documentaire, puis produit une réponse synthétique.
+
+---
+
+**Metadata Filtering (Payload Filtering)**
+Application de filtres structurés sur les métadonnées associées aux chunks (date, auteur, département, niveau de confidentialité, langue…) lors du retrieval vectoriel. Permet de restreindre la recherche à un sous-ensemble pertinent de documents avant même le calcul de similarité, améliorant précision et performance.
+
+---
+
+**Milvus**
+Base de données vectorielle open-source haute performance, conçue pour la gestion de milliards de vecteurs. Elle supporte plusieurs types d'index (HNSW, IVF, ANNOY) et des fonctionnalités avancées de clustering et de partitionnement pour les déploiements à grande échelle.
+
+---
+
+**Multi-hop Retrieval**
+Stratégie de retrieval itérative où une question complexe est décomposée en plusieurs sous-questions, chacune donnant lieu à une recherche indépendante. Les résultats intermédiaires alimentent les requêtes suivantes, permettant de raisonner sur des chaînes d'informations distribuées dans plusieurs documents.
+
+---
+
+**PII (Personally Identifiable Information)**
+Toute donnée permettant d'identifier directement ou indirectement une personne physique (nom, email, numéro de sécurité sociale, adresse IP…). La détection et le masquage automatique des PII lors de l'ingestion sont obligatoires dans les systèmes RAG traitant des données personnelles, au regard du RGPD.
+
+---
+
+**Pipeline RAG**
+Chaîne de traitement complète d'un système RAG, de la réception de la question utilisateur à la génération de la réponse : reformulation de la requête → retrieval vectoriel → reranking → construction du prompt → génération LLM → post-traitement et citation des sources.
+
+---
+
+**Prompt Engineering**
+Discipline consistant à concevoir et optimiser les instructions textuelles soumises à un LLM pour orienter sa génération vers le format, le style et le contenu attendus. Dans un RAG, le prompt engineering inclut la structuration du contexte documentaire (balisage XML, hiérarchisation des sources) et les instructions anti-hallucination.
+
+---
+
+**Qdrant**
+Base de données vectorielle open-source haute performance, écrite en Rust. Elle se distingue par son filtrage de payload avancé permettant d'appliquer des ACL et des critères métadonnées directement au niveau du moteur de recherche, sans post-filtrage applicatif coûteux.
+
+---
+
+**Query Rewriting**
+Technique consistant à reformuler automatiquement la question originale de l'utilisateur avant le retrieval, afin d'améliorer la précision de la recherche. Peut inclure la décomposition en sous-questions, l'expansion de la requête avec des synonymes, ou la génération d'hypothèses de réponse (HyDE).
+
+---
+
+**RAG (Retrieval-Augmented Generation)**
+Architecture d'IA combinant un système de recherche d'information (retrieval) avec un modèle de génération de texte (LLM). Le retrieval fournit des documents pertinents comme contexte, que le LLM utilise pour générer une réponse fondée sur des sources vérifiables, réduisant les hallucinations et permettant la mise à jour de la base de connaissances sans réentraîner le modèle.
+
+---
+
+**RabbitMQ**
+Broker de messages open-source implémentant le protocole AMQP. Utilisé en RAG pour découpler les producteurs d'événements (upload de documents) des consommateurs de tâches (workers d'ingestion), garantissant la fiabilité et la scalabilité du pipeline asynchrone.
+
+---
+
+**Ragas**
+Framework open-source d'évaluation automatique des systèmes RAG. Il mesure plusieurs métriques clés : faithfulness, answer relevancy, context precision, context recall. Permet de construire des pipelines d'évaluation continue en production, sans annotation humaine systématique.
+
+---
+
+**Redis**
+Base de données clé-valeur en mémoire, utilisée en RAG principalement comme cache sémantique : les requêtes fréquentes et leurs réponses sont mises en cache, réduisant drastiquement la latence et les coûts d'inférence LLM pour les questions répétitives.
+
+---
+
+**Reranking**
+Étape de post-traitement du retrieval consistant à réordonner les chunks candidats selon un modèle de pertinence plus précis (cross-encoder) que celui utilisé pour la récupération initiale. Le reranking améliore significativement la qualité du contexte fourni au LLM, au prix d'une latence additionnelle maîtrisée.
+
+---
+
+**Retrieval**
+Composant du système RAG chargé de retrouver, dans la base documentaire, les fragments d'information les plus pertinents par rapport à la question posée. Il utilise typiquement la recherche vectorielle (par similarité d'embeddings), la recherche lexicale (BM25) ou une combinaison des deux (hybrid search).
+
+---
+
+**RGPD (Règlement Général sur la Protection des Données)**
+Réglementation européenne encadrant la collecte, le traitement et le stockage des données personnelles. Tout système RAG traitant des données d'utilisateurs européens doit garantir la minimisation des données, le droit à l'effacement et la sécurité des données, notamment via le masquage des PII lors de l'ingestion.
+
+---
+
+**RRF (Reciprocal Rank Fusion)**
+Algorithme de fusion de listes de résultats provenant de plusieurs systèmes de retrieval (dense + sparse). Il calcule un score combiné basé sur le rang de chaque document dans chaque liste, sans nécessiter la normalisation des scores bruts, produisant une liste unifiée robuste et performante.
+
+---
+
+**Scalabilité (Scalability)**
+Capacité d'un système à maintenir ses performances et sa fiabilité lorsque la charge augmente (nombre de documents, de requêtes concurrentes, d'utilisateurs). En RAG, la scalabilité s'obtient par le sharding des index vectoriels, la parallélisation des workers d'ingestion et l'usage d'architectures cloud élastiques.
+
+---
+
+**Semantic Cache**
+Système de cache qui stocke les paires (requête, réponse) et retrouve les réponses mémorisées non pas par identité exacte de la requête, mais par similarité sémantique des embeddings. Permet de servir instantanément des questions similaires (mais non identiques) à des questions déjà traitées.
+
+---
+
+**Semantic Chunking**
+Stratégie de découpage des documents qui respecte les frontières sémantiques naturelles du texte (paragraphes, sections, idées complètes) plutôt que de découper mécaniquement par nombre de tokens. Produit des chunks plus cohérents et améliore la précision du retrieval.
+
+---
+
+**Sharding**
+Technique de partitionnement horizontal d'une base de données (ou d'un index vectoriel) en plusieurs fragments distribués sur différents nœuds. Permet de dépasser les limites de capacité d'une machine unique et d'améliorer la parallélisation des requêtes sur de très larges corpus.
+
+---
+
+**SPLADE**
+Modèle de représentation sparse (creuse) des textes qui apprend à associer chaque document à un vecteur de grande dimension où seuls quelques termes sont actifs. Combine les avantages de la recherche lexicale (interprétabilité, efficacité sur termes rares) et de la représentation neuronale (généralisation sémantique).
+
+---
+
+**Structured Output**
+Capacité d'un LLM à produire des réponses dans un format structuré et typé (JSON, XML, Pydantic model) plutôt qu'en texte libre. Dans un RAG, les structured outputs permettent d'extraire des citations vérifiables, des scores de confiance et des champs métadonnées directement dans la réponse générée, facilitant l'audit et la traçabilité.
+
+---
+
+**Token**
+Unité de base traitée par un LLM, correspondant approximativement à un mot ou un sous-mot selon le tokenizer utilisé (BPE, WordPiece). Le nombre de tokens détermine les coûts d'inférence et les limites de la context window. En moyenne, 1 token ≈ 0,75 mot en anglais, légèrement moins en français.
+
+---
+
+**Transformer**
+Architecture de réseau de neurones basée sur le mécanisme d'attention (self-attention) introduit dans l'article *Attention is All You Need* (2017). Tous les LLM modernes (GPT, Claude, Mistral, LLaMA) et les modèles d'embeddings (BERT, E5, BGE) sont fondés sur cette architecture.
+
+---
+
+**TruLens**
+Framework d'évaluation et de traçage pour les applications LLM, avec un focus sur le monitoring en production. Il permet d'enregistrer et d'annoter les traces d'exécution, de calculer des métriques de qualité et d'identifier les requêtes problématiques via une interface de visualisation.
+
+---
+
+**Vector Database (Base Vectorielle)**
+Base de données spécialisée dans le stockage, l'indexation et la recherche efficace de vecteurs d'embeddings de haute dimension. Elle constitue le cœur du composant de retrieval d'un système RAG. Exemples : Qdrant, Milvus, Weaviate, Pinecone, pgvector.
+
+---
+
+**vLLM**
+Framework de serving haute performance pour les LLM, optimisant le débit et la latence grâce à la technique de PagedAttention et au batching continu des requêtes. Utilisé en production pour servir des modèles open-source (LLaMA, Mistral, Qwen) avec une efficacité proche des services cloud propriétaires.
+
+---
